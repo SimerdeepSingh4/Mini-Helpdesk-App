@@ -59,9 +59,10 @@ const TicketForm = () => {
         
         try {
             const token = localStorage.getItem("token");
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
             const res = await axios.post(
-                "http://localhost:5000/api/tickets",
+                `${API_URL}/api/tickets`,
                 { name, issue, priority },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -117,7 +118,7 @@ const TicketForm = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-2xl mx-auto">
                 {/* Breadcrumb */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Home className="w-4 h-4" />
                         <span>Home</span>
@@ -125,7 +126,7 @@ const TicketForm = () => {
                         <Ticket className="w-4 h-4" />
                         <span>Submit Ticket</span>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Header */}
                 <div className="mb-8 text-center">
@@ -281,22 +282,6 @@ const TicketForm = () => {
                                 </p>
                             )}
                         </form>
-                    </CardContent>
-                </Card>
-
-                {/* Help Card */}
-                <Card className="mt-6 bg-blue-50 border-blue-200">
-                    <CardContent className="pt-6">
-                        <div className="flex items-start gap-3">
-                            <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                            <div>
-                                <h3 className="font-semibold text-blue-800 mb-1">Need Help?</h3>
-                                <p className="text-blue-700 text-sm">
-                                    For urgent issues, please include relevant details like error messages, 
-                                    steps to reproduce the problem, and your system information.
-                                </p>
-                            </div>
-                        </div>
                     </CardContent>
                 </Card>
             </div>
