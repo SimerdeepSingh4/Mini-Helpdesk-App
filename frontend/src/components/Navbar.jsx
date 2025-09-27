@@ -5,7 +5,24 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useSocket } from "../contexts/SocketContext";
-import { LogOut, User, Settings, Ticket, BarChart3, HelpCircle, Wifi, WifiOff } from "lucide-react";
+import {
+  LogOut,
+  User,
+  Settings,
+  Ticket,
+  BarChart3,
+  HelpCircle,
+  Wifi,
+  WifiOff,
+  Menu,
+} from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -19,10 +36,36 @@ const Navbar = () => {
   };
 
   const getRoleBadgeStyle = (role) => {
-    return role === "admin" 
+    return role === "admin"
       ? "bg-purple-100 text-purple-800 hover:bg-purple-200"
       : "bg-blue-100 text-blue-800 hover:bg-blue-200";
   };
+
+  // Links for navigation
+  const renderNavLinks = () =>
+    user?.role === "admin" ? (
+      <Link to="/dashboard">
+        <Button variant="ghost" size="sm" className="gap-2 w-full justify-start">
+          <BarChart3 className="w-4 h-4" />
+          Dashboard
+        </Button>
+      </Link>
+    ) : (
+      <>
+        <Link to="/my-tickets">
+          <Button variant="ghost" size="sm" className="gap-2 w-full justify-start">
+            <BarChart3 className="w-4 h-4" />
+            My Tickets
+          </Button>
+        </Link>
+        <Link to="/ticket">
+          <Button variant="ghost" size="sm" className="gap-2 w-full justify-start">
+            <Ticket className="w-4 h-4" />
+            Submit Ticket
+          </Button>
+        </Link>
+      </>
+    );
 
   return (
     <nav className="bg-white border-b shadow-sm">
@@ -39,20 +82,24 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Navigation Links and User Info */}
+          {/* Desktop Navigation */}
           {user ? (
-            <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4">
               {/* Connection Status */}
               <div className="hidden md:flex items-center gap-2">
                 {connected ? (
                   <>
                     <Wifi className="w-4 h-4 text-green-600" />
-                    <span className="text-xs text-green-600 font-medium">Online</span>
+                    <span className="text-xs text-green-600 font-medium">
+                      Online
+                    </span>
                   </>
                 ) : (
                   <>
                     <WifiOff className="w-4 h-4 text-red-500" />
-                    <span className="text-xs text-red-500 font-medium">Offline</span>
+                    <span className="text-xs text-red-500 font-medium">
+                      Offline
+                    </span>
                   </>
                 )}
               </div>
@@ -60,29 +107,7 @@ const Navbar = () => {
               <Separator orientation="vertical" className="h-6" />
 
               {/* Navigation Buttons */}
-              {user.role === "admin" ? (
-                <Link to="/dashboard">
-                  <Button variant="ghost" size="sm" className="gap-2">
-                    <BarChart3 className="w-4 h-4" />
-                    Dashboard
-                  </Button>
-                </Link>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link to="/my-tickets">
-                    <Button variant="ghost" size="sm" className="gap-2">
-                      <BarChart3 className="w-4 h-4" />
-                      My Tickets
-                    </Button>
-                  </Link>
-                  <Link to="/ticket">
-                    <Button variant="ghost" size="sm" className="gap-2">
-                      <Ticket className="w-4 h-4" />
-                      Submit Ticket
-                    </Button>
-                  </Link>
-                </div>
-              )}
+              {renderNavLinks()}
 
               <Separator orientation="vertical" className="h-6" />
 
@@ -90,8 +115,13 @@ const Navbar = () => {
               <div className="flex items-center gap-3">
                 <div className="hidden md:block text-right">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-900">{user.name}</span>
-                    <Badge className={getRoleBadgeStyle(user.role)} variant="secondary">
+                    <span className="text-sm font-medium text-gray-900">
+                      {user.name}
+                    </span>
+                    <Badge
+                      className={getRoleBadgeStyle(user.role)}
+                      variant="secondary"
+                    >
                       {user.role === "admin" ? "Admin" : "User"}
                     </Badge>
                   </div>
@@ -104,9 +134,9 @@ const Navbar = () => {
                 </div>
 
                 {/* Logout Button */}
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={handleLogout}
                   className="gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
                 >
@@ -116,7 +146,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <Link to="/login">
                 <Button>
                   <User className="w-4 h-4 mr-2" />
@@ -125,6 +155,85 @@ const Navbar = () => {
               </Link>
             </div>
           )}
+
+          {/* Mobile Menu */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Menu className="w-6 h-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 flex flex-col gap-4">
+                  {user ? (
+                    <>
+                      {/* Connection Status */}
+                      <div className="flex items-center gap-2">
+                        {connected ? (
+                          <>
+                            <Wifi className="w-4 h-4 text-green-600" />
+                            <span className="text-xs text-green-600 font-medium">
+                              Online
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <WifiOff className="w-4 h-4 text-red-500" />
+                            <span className="text-xs text-red-500 font-medium">
+                              Offline
+                            </span>
+                          </>
+                        )}
+                      </div>
+
+                      <Separator />
+
+                      {/* Navigation */}
+                      {renderNavLinks()}
+
+                      <Separator />
+
+                      {/* User Info */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-sm font-medium text-gray-900">
+                          {user.name}
+                        </span>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                        <Badge
+                          className={getRoleBadgeStyle(user.role)}
+                          variant="secondary"
+                        >
+                          {user.role === "admin" ? "Admin" : "User"}
+                        </Badge>
+                      </div>
+
+                      {/* Logout Button */}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleLogout}
+                        className="gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 mt-4"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <Link to="/login">
+                      <Button className="w-full">
+                        <User className="w-4 h-4 mr-2" />
+                        Login
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>
