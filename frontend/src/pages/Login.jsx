@@ -81,14 +81,12 @@ const Login = ({ onLogin }) => {
 
             if (typeof onLogin === "function") onLogin();
 
-            // Add a small delay for better UX
-            setTimeout(() => {
-                if (res.data.user.role === "admin") {
-                    navigate("/dashboard");
-                } else {
-                    navigate("/my-tickets");
-                }
-            }, 1000);
+            // Navigate immediately after successful login
+            if (res.data.user.role === "admin") {
+                navigate("/dashboard");
+            } else {
+                navigate("/my-tickets");
+            }
             
         } catch (err) {
             const data = err.response?.data;
