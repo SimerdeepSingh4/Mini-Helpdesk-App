@@ -11,8 +11,6 @@ const generateToken = (user) => {
   );
 };
 
-// @desc   Register a new user
-// @route  POST /api/auth/register
 exports.register = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -38,8 +36,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// @desc   Login user
-// @route  POST /api/auth/login
 exports.login = async (req, res) => {
   try {
     const errors = validationResult(req);

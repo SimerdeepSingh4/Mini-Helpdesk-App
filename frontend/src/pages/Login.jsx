@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -60,8 +59,9 @@ const Login = ({ onLogin }) => {
         
         try {
             let res;
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
             if (isRegister) {
-                res = await axios.post("http://localhost:5000/api/auth/register", {
+                res = await axios.post(`${API_URL}/api/auth/register`, {
                     name,
                     email,
                     password,
@@ -69,7 +69,7 @@ const Login = ({ onLogin }) => {
                 });
                 toast.success("Account created successfully!");
             } else {
-                res = await axios.post("http://localhost:5000/api/auth/login", {
+                res = await axios.post(`${API_URL}/api/auth/login`, {
                     email,
                     password,
                 });

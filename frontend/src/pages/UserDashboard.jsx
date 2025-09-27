@@ -51,7 +51,8 @@ const UserDashboard = () => {
   const fetchMyTickets = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/tickets/my-tickets", {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const res = await axios.get(`${API_URL}/api/tickets/my-tickets`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTickets(res.data);

@@ -16,8 +16,9 @@ export const SocketProvider = ({ children }) => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    // Initialize socket connection
-    const newSocket = io('http://localhost:5000', {
+    // Use env variable for socket server URL
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const newSocket = io(API_URL, {
       transports: ['websocket', 'polling']
     });
 

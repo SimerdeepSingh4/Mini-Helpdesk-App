@@ -26,7 +26,8 @@ const AdminDashboard = () => {
   const fetchTickets = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/tickets", {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const res = await axios.get(`${API_URL}/api/tickets`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTickets(res.data);
@@ -131,8 +132,9 @@ const AdminDashboard = () => {
   const handleStatusChange = async (id, status) => {
     try {
       const token = localStorage.getItem("token");
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
       await axios.patch(
-        `http://localhost:5000/api/tickets/${id}/status`,
+        `${API_URL}/api/tickets/${id}/status`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
