@@ -1,6 +1,6 @@
 # Mini Helpdesk App
 
-![Project Banner](https://via.placeholder.com/1200x300.png?text=Mini+Helpdesk+App)
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-19-blue?logo=react" alt="React 19">
