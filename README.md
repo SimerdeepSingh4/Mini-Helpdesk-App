@@ -15,7 +15,7 @@ A modern, real-time support ticket management system designed to streamline cust
 
 ## ✨ Live Demo
 
-[Link to the live demo](https://your-live-demo-url.com)
+[Link to the live demo](mini-helpdesk-app.vercel.app)
 
 
 
